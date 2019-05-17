@@ -18,19 +18,18 @@ export default (state = initialState, action) => {
     case GET_ITEMS: {
       return {
         ...state
-        // ...action.payload
       };
     }
     case ADD_ITEMS: {
       return {
-        ...state
-        // ...action.payload
+        ...state,
+        items: [action.payload, ...state.items]
       };
     }
     case DELETE_ITEMS: {
       return {
-        ...state
-        // ...action.payload
+        ...state,
+        items: state.items.filter(item => item.id !== action.payload)
       };
     }
     default: {
