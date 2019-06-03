@@ -1,23 +1,23 @@
-import uuid from "uuid";
-import { GET_ITEMS, ADD_ITEMS, DELETE_ITEMS } from "./types";
+import { GET_ITEMS, ADD_ITEMS, DELETE_ITEMS, ITEMS_LOADING } from "./types";
 
 type State = {
-  items: []
+  items: [],
+  isLoading: Boolean
 };
 
 const initialState: State = {
-  items: [
-    { id: uuid(), name: "Susu", count: 5 },
-    { id: uuid(), name: "Telur", count: 10 },
-    { id: uuid(), name: "Kacang", count: 3 }
-  ]
+  items: [],
+  isLoading: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS: {
+      console.log("Reducer Item", action.payload);
       return {
-        ...state
+        ...state,
+        items: action.payload,
+        isLoading: false
       };
     }
     case ADD_ITEMS: {
@@ -30,6 +30,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         items: state.items.filter(item => item.id !== action.payload)
+      };
+    }
+    case ITEMS_LOADING: {
+      return {
+        ...state,
+        isLoading: action.payload
       };
     }
     default: {

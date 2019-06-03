@@ -10,7 +10,25 @@ const Item = require("../../models/Item");
 router.get("/", (req, res) => {
   Item.find()
     .sort({ date: -1 })
-    .then(items => res.json(items));
+    .then(items => {
+      if (items.length === 0) {
+        res.status(200).json({
+          status: 200,
+          message: "Items is Empty"
+        });
+      } else if (items === undefined) {
+        res.status(404).json({
+          status: 404,
+          message: "Items not found"
+        });
+      } else {
+        res.status(200).json({
+          status: 200,
+          message: "Success get all items",
+          data: items
+        });
+      }
+    });
 });
 
 // @route POST api/v1/items
