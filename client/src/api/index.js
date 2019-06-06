@@ -6,9 +6,13 @@ const create = (baseURL = Config.baseUrl) => {
 
   //method get
   const getItems = require("./item-list").default(api);
+  const postItems = require("./item-new").default(api);
+  const deleteItems = require("./item-delete").default(api);
 
   return {
-    getItems
+    getItems,
+    postItems,
+    deleteItems
   };
 };
 

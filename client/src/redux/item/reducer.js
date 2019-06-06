@@ -13,7 +13,6 @@ const initialState: State = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS: {
-      console.log("Reducer Item", action.payload);
       return {
         ...state,
         items: action.payload,
@@ -23,19 +22,21 @@ export default (state = initialState, action) => {
     case ADD_ITEMS: {
       return {
         ...state,
-        items: [action.payload, ...state.items]
+        items: [action.payload, ...state.items],
+        isLoading: false
       };
     }
     case DELETE_ITEMS: {
       return {
         ...state,
-        items: state.items.filter(item => item.id !== action.payload)
+        items: state.items.filter(item => item._id !== action.payload),
+        isLoading: false
       };
     }
     case ITEMS_LOADING: {
       return {
         ...state,
-        isLoading: action.payload
+        isLoading: !state.isLoading
       };
     }
     default: {

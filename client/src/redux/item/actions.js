@@ -2,37 +2,37 @@ import { GET_ITEMS, ADD_ITEMS, DELETE_ITEMS, ITEMS_LOADING } from "./types";
 import Api from "../../api/";
 
 const getItems = () => async dispatch => {
-  dispatch(setLoadingItems(true));
+  dispatch(setLoadingItems());
   var items = await Api.create().getItems();
-  dispatch(setLoadingItems(false));
-  dispatch(setItems(items.data));
+  dispatch({
+    type: GET_ITEMS,
+    payload: items.data
+  });
 };
 
-const setItems = data => ({
-  type: GET_ITEMS,
-  payload: data
-});
-
-const addItems = data => {
-  return {
-    type: ADD_ITEMS,
-    payload: data
-  };
+const addItems = data => async dispatch => {
+  dispatch(setLoadingItems());
+  var items = await Api.create().postItems(data);
+  if (items.data !== undefined) {
+    dispatch({
+      type: ADD_ITEMS,
+      payload: items.data.data
+    });
+  }
 };
 
-const deleteItems = id => {
-  return {
+const deleteItems = id => async dispatch => {
+  dispatch(setLoadingItems());
+  await Api.create().deleteItems(id);
+  dispatch({
     type: DELETE_ITEMS,
     payload: id
-  };
+  });
 };
 
-const setLoadingItems = status => {
-  return {
-    payload: status,
-    type: ITEMS_LOADING
-  };
-};
+const setLoadingItems = () => ({
+  type: ITEMS_LOADING
+});
 
 export default {
   getItems,

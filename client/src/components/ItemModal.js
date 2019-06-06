@@ -10,7 +10,6 @@ import {
   Input
 } from "reactstrap";
 import { connect } from "react-redux";
-import uuid from "uuid";
 import ItemsRedux from "../redux/item";
 
 type Props = {
@@ -34,7 +33,6 @@ class ItemModal extends Component<Props> {
   submitItem = e => {
     e.preventDefault();
     const newItem = {
-      id: uuid(),
       name: this.state.name,
       count: this.state.count
     };
@@ -43,8 +41,6 @@ class ItemModal extends Component<Props> {
     this.toggle();
   };
   changeState = e => {
-    console.log("Name",e.target.name);
-    console.log("Value",e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
