@@ -13,8 +13,8 @@ const User = require("../../models/User");
 router.post("/", (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    res.status(400).json({
-      message: "Pleas inser all parameter"
+    return res.status(400).json({
+      message: "Please insert all parameter"
     });
   }
   User.findOne({ email }).then(user => {
@@ -31,10 +31,12 @@ router.post("/", (req, res) => {
             config.get("jwtSecret"), //secret token
             { expiresIn: 3600 }, //expire in sec
             (err, token) => {
+              console.log("CALL");
               if (err) throw err;
               res.json({
                 message: "Succes register",
-                token: token
+                token: token,
+                user: user
               });
             }
           );

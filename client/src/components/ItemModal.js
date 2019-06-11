@@ -75,7 +75,11 @@ class ItemModal extends Component<Props> {
                   placeholder="Add Shopping Number"
                   onChange={this.changeState}
                 />
-                <Button color="dark" style={{ marginBottom: "2rem" }} block>
+                <Button
+                  color="dark"
+                  style={{ marginBottom: "2rem", marginTop: "2rem" }}
+                  block
+                >
                   Submit
                 </Button>
               </FormGroup>

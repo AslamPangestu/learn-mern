@@ -4,15 +4,20 @@ import Config from "../config";
 const create = (baseURL = Config.baseUrl) => {
   const api = apisauce.create({ baseURL });
 
-  //method get
-  const getItems = require("./item-list").default(api);
-  const postItems = require("./item-new").default(api);
-  const deleteItems = require("./item-delete").default(api);
+  //Item
+  const getItems = require("./item/item-list").default(api);
+  const postItems = require("./item/item-new").default(api);
+  const deleteItems = require("./item/item-delete").default(api);
+  //Auth
+  const getUser = require("./auth/user-get").default(api);
+  const registerUser = require("./auth/user-register").default(api);
 
   return {
     getItems,
     postItems,
-    deleteItems
+    deleteItems,
+    getUser,
+    registerUser
   };
 };
 

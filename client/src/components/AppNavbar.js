@@ -9,11 +9,14 @@ import {
   NavLink,
   Container
 } from "reactstrap";
+import RegisterModal from "./RegisterModal";
+import Logout from "./Logout";
 
 class AppNavbar extends Component {
   state = {
     isOpen: false
   };
+
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
@@ -28,7 +31,15 @@ class AppNavbar extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="">Test</NavLink>
+                  <NavLink href="https://github.com/AslamPangestu/learn-mern">
+                    Github
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <RegisterModal />
+                </NavItem>
+                <NavItem>
+                  <Logout />
                 </NavItem>
               </Nav>
             </Collapse>

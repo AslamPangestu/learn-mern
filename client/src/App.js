@@ -6,20 +6,26 @@ import ItemModal from "./components/ItemModal";
 import { Container } from "reactstrap";
 
 import { Provider } from "react-redux";
+import AuthRedux from "./redux/auth";
 import store from "./redux/store";
 
-function App() {
-  return (
-    <Provider store={store}>
-      <div className="App">
-        <AppNavbar />
-        <Container>
-          <ItemModal />
-          <ShopingList />
-        </Container>
-      </div>
-    </Provider>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    store.dispatch(AuthRedux.actions.loadUser());
+  }
+  render() {
+    return (
+      <Provider store={store}>
+        <div className="App">
+          <AppNavbar />
+          <Container>
+            <ItemModal />
+            <ShopingList />
+          </Container>
+        </div>
+      </Provider>
+    );
+  }
 }
 
 export default App;
