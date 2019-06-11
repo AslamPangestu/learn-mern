@@ -1,29 +1,29 @@
 //import liblary
 const express = require("express"); //backend
 const mongoose = require("mongoose"); //mongodb driver
-const bodyParser = require("body-parser"); //get request from body
 const path = require("path");
-
-//import routes
-const itemRoutes = require("./routes/api/items");
+const config = require("config");
 
 //initiation
 const app = express();
 
 //Bodyparser Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 //DB Config
-const uri = require("./config/keys").mongoURI;
+// const uri = require("./config/keys").mongoURI;
+const uri = config.get("mongoURI");
 
 //Connect to mongo
 mongoose
-  .connect(uri, { useNewUrlParser: true })
+  .connect(uri, { useNewUrlParser: true, useCreateIndex: true })
   .then(() => console.log("Mongo Connected"))
   .catch(err => console.log(err));
 
 //Use Routes
-app.use("/api/v1/items", itemRoutes);
+app.use("/api/v1/items", require("./routes/api/items"));
+app.use("/api/v1/users", require("./routes/api/users"));
+app.use("/api/v1/auth", require("./routes/api/auth"));
 
 // Serve Static assets in prod
 if (process.env.NODE_ENV === "production") {

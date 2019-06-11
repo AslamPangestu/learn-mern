@@ -1,5 +1,6 @@
 const express = require("express"); //import express
 const router = express.Router(); //get class router from express
+const auth = require("../../middleware/auth");
 
 //Import Item Model
 const Item = require("../../models/Item");
@@ -77,8 +78,8 @@ router.get("/", (req, res) => {
 
 // @route POST api/v1/items
 // @desc Add new item
-// @access Public
-router.post("/", (req, res) => {
+// @access Private
+router.post("/", auth, (req, res) => {
   if (req.body.name === "") {
     res.status(400).json({
       status: 400,
@@ -109,8 +110,8 @@ router.post("/", (req, res) => {
 
 // @route DELETE api/v1/items/:id
 // @desc Remove item
-// @access Public
-router.delete("/:id", (req, res) => {
+// @access Private
+router.delete("/:id", auth, (req, res) => {
   Item.findById(req.params.id)
     .then(item =>
       item.remove().then(() =>
