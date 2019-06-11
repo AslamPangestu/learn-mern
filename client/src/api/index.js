@@ -11,13 +11,15 @@ const create = (baseURL = Config.baseUrl) => {
   //Auth
   const getUser = require("./auth/user-get").default(api);
   const registerUser = require("./auth/user-register").default(api);
+  const loginUser = require("./auth/user-login").default(api);
 
   return {
     getItems,
     postItems,
     deleteItems,
     getUser,
-    registerUser
+    registerUser,
+    loginUser
   };
 };
 

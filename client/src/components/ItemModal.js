@@ -11,10 +11,12 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import ItemsRedux from "../redux/item";
+import AuthRedux from "../redux/auth";
 
 type Props = {
   addItems: () => void,
-  items: []
+  items: [],
+  isAuthenticated: Boolean
 };
 
 class ItemModal extends Component<Props> {
@@ -47,13 +49,17 @@ class ItemModal extends Component<Props> {
   render() {
     return (
       <div>
-        <Button
-          color="dark"
-          style={{ marginBottom: "2rem" }}
-          onClick={this.toggle}
-        >
-          Add Item
-        </Button>
+        {this.props.isAuthenticated ? (
+          <Button
+            color="dark"
+            style={{ marginBottom: "2rem" }}
+            onClick={this.toggle}
+          >
+            Add Item
+          </Button>
+        ) : (
+          <h4 className="mb-3 ml-4">Please Login to manage items</h4>
+        )}
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add New Shopping Item</ModalHeader>
           <ModalBody>
@@ -92,7 +98,8 @@ class ItemModal extends Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  items: ItemsRedux.selectors.items(state)
+  items: ItemsRedux.selectors.items(state),
+  isAuthenticated: AuthRedux.selectors.isAuthenticated(state)
 });
 
 const mapDispatchToProps = dispatch => ({

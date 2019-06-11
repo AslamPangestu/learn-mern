@@ -34,7 +34,8 @@ router.post("/", (req, res) => {
           if (err) throw err;
           res.json({
             message: "Succes Login",
-            token: token
+            token: token,
+            user: user
           });
         }
       );

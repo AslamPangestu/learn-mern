@@ -1,30 +1,35 @@
 type Params = {
-  id: number
+  email: string,
+  password: string
 };
 
 // eslint-disable-next-line
 type Item = {
-  name: string,
-  count: number
+  email: string,
+  password: string
+};
+
+type Response = {
+  message: string,
+  token: string
 };
 
 // eslint-disable-next-line
 type Result = {
-  status: integer,
   message: string,
-  data: any
+  token: string
 };
 
 export default api => async (params: Params): Promise<Result> => {
-  console.log("config", params.config);
-  const res = await api.delete(`items/${params.id}`, null, params.config);
-  console.log("Delete", res);
+  const res = await api.post("auth", params.body, params.config);
+
+  const data: Response = res.data;
 
   if (res.data !== undefined) {
     return {
-      success: res.data.success,
-      status: res.data.status,
-      message: res.data.message
+      message: res.data.message,
+      token: data.token,
+      user: data.user
     };
   } else {
     return {

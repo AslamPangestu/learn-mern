@@ -11,6 +11,26 @@ import {
 import Api from "../../api/";
 import ErrorRedux from "../error";
 
+//login
+const login = ({ email, password }) => async dispatch => {
+  //Headers
+  const config = {
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+  const body = JSON.stringify({ email, password });
+  var login = await Api.create().loginUser({ body, config });
+  if (login.token) {
+    dispatch({ type: LOGIN_SUCCESS, payload: login });
+  } else {
+    dispatch(
+      ErrorRedux.actions.returnError(login.message, login.status, "LOGIN_FAIL")
+    );
+    dispatch({ type: LOGIN_FAIL });
+  }
+};
+
 //register
 const register = ({ name, email, password }) => async dispatch => {
   //Headers
@@ -23,7 +43,6 @@ const register = ({ name, email, password }) => async dispatch => {
   var registered = await Api.create().registerUser({ body, config });
   console.log("Data", registered);
   if (registered.token) {
-    console.log("REGISTER_SUCCESS");
     dispatch({ type: REGISTER_SUCCESS, payload: registered });
   } else {
     dispatch(
@@ -79,5 +98,6 @@ export default {
   loadUser,
   headerConfig,
   register,
-  logout
+  logout,
+  login
 };

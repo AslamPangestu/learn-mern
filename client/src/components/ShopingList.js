@@ -4,12 +4,14 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import { connect } from "react-redux";
 import ItemsRedux from "../redux/item";
+import AuthRedux from "../redux/auth";
 
 type Props = {
   getItems: () => void,
   deleteItems: () => void,
   items: [],
-  isLoading: Boolean
+  isLoading: Boolean,
+  isAuthenticated: Boolean
 };
 
 class ShopingList extends Component<Props> {
@@ -33,14 +35,16 @@ class ShopingList extends Component<Props> {
               {this.props.items.map(({ _id, name, count }) => (
                 <CSSTransition key={_id} timeout={500} classNames="fade">
                   <ListGroupItem>
-                    <Button
-                      className="remove-btn"
-                      color="danger"
-                      size="sm"
-                      onClick={this.onDelete.bind(this, _id)}
-                    >
-                      &times;
-                    </Button>
+                    {this.props.isAuthenticated ? (
+                      <Button
+                        className="remove-btn"
+                        color="danger"
+                        size="sm"
+                        onClick={this.onDelete.bind(this, _id)}
+                      >
+                        &times;
+                      </Button>
+                    ) : null}
                     {name} {count}
                   </ListGroupItem>
                 </CSSTransition>
@@ -57,6 +61,7 @@ class ShopingList extends Component<Props> {
 
 const mapStateToProps = state => ({
   items: ItemsRedux.selectors.items(state),
+  isAuthenticated: AuthRedux.selectors.isAuthenticated(state),
   isLoading: ItemsRedux.selectors.isLoading(state)
 });
 
